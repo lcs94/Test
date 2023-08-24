@@ -11,7 +11,7 @@ pr: none
 jobs: 
 - job: HostedAgent
   pool:
-    vmImage: 'windows-lastest'
+    vmImage: 'windows-latest'
   steps:
   - task: TerraformInstaller@0
     inputs: 
