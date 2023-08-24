@@ -6,14 +6,25 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+pr: none
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs: 
+- job: HostedAgent
+  Pool:
+    vmImage: 'windows-lastest'
+  steps:
+  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@
+    inputs: 
+      terraformVersion: '1.5.5'
+    displayName: Install Terraform
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - script: |
+      terraform --version
+    displayName: 'Terraform Version'
+
+  - script: |
+      az login --service-principal -u 0cd2a780-3598-4328-8db8-8b7ba273e024 -p 7wj8Q~ZoQE19B3yHSRlA9XoXzu63nIHjCWuI8a1Z --tenant c86959ed-45e5-47f5-8ef5-308ca79916fc
+      cd $(Agent.BuildDirectory)
+      
+    displayName: 'Create Windows 10 VM with Terraform'
+
