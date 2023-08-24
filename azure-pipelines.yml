@@ -27,16 +27,16 @@ jobs:
       cd $(Agent.BuildDirectory)
       
     displayName: 'Create Windows 10 VM with Terraform'
-    
+
   - script: |
       echo 'Running Terraform'
-      cd $(Build.SourcesDirectory)/terraform
+      cd $(Build.SourcesDirectory)/main/modules
       terraform init
       terraform plan -out=tfplan
     displayName: 'Terraform Plan'
 
   - script: |
-      cd $(Build.SourcesDirectory)/terraform
+      cd $(Build.SourcesDirectory)/main/modules
       terraform apply tfplan
     displayName: 'Terraform Apply'
     
