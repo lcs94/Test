@@ -17,7 +17,7 @@ resource "azurerm_windows_virtual_machine" "VM" {
     publisher = var.publisher
     offer     = var.offer
     sku       = var.sku
-    version   = var.version
+    version   = var.windows_version
   }
 
   admin_username = var.admin_username

@@ -52,7 +52,7 @@ variable "sku" {
   type        = string
 }
 
-variable "version" {
+variable "windows_version" {
   description = "The version of the Windows image."
   default     = "latest"
   type        = string
