@@ -13,9 +13,9 @@ jobs:
   pool:
     vmImage: 'windows-lastest'
   steps:
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@
+  - task: TerraformInstaller@0
     inputs: 
-      terraformVersion: '1.5.5'
+      terraformVersion: latest
     displayName: Install Terraform
 
   - script: |
