@@ -1,12 +1,11 @@
-# Windows 가상 머신 생성
 resource "azurerm_windows_virtual_machine" "example" {
   name                = "azurecliVM"
-  resource_group_name = "Automated_Test"
-  location            = "koreacentral"
+  resource_group_name = var.resource_group_name
+  location            = var.location
   size                = "Standard_DS2_v2"
 
   network_interface_ids = [
-   "/subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Network/networkInterfaces/Automated_Test",
+    "/subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Network/networkInterfaces/Automated_Test",
   ]
 
   os_disk {
@@ -21,8 +20,8 @@ resource "azurerm_windows_virtual_machine" "example" {
     version   = "latest"
   }
 
-  admin_username = "adminuser"
-  admin_password = "Password1234!"  # 반드시 안전한 암호를 사용하세요.
+  admin_username = var.admin_username
+  admin_password = var.admin_password
 }
 
 provider "azurerm" {
