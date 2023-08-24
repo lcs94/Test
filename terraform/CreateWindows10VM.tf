@@ -1,14 +1,8 @@
-# 리소스 그룹 정의
-resource "azurerm_resource_group" "my_resource_group" {
-  name     = "Automated_Test"
-  location = "koreacentral"
-}
-
 # Windows 가상 머신 생성
 resource "azurerm_windows_virtual_machine" "example" {
   name                = "azurecliVM"
-  resource_group_name = azurerm_resource_group.my_resource_group.name
-  location            = azurerm_resource_group.my_resource_group.location
+  resource_group_name = "Automated_Test"
+  location            = "koreacentral"
   size                = "Standard_DS2_v2"
 
   network_interface_ids = [
