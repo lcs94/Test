@@ -30,13 +30,13 @@ jobs:
 
   - script: |
       echo 'Running Terraform'
-      cd $(Build.SourcesDirectory)/main/terraform/modules
+      cd $(Build.SourcesDirectory)/terraform
       terraform init
       terraform plan -out=tfplan
     displayName: 'Terraform Plan'
 
   - script: |
-      cd $(Build.SourcesDirectory)/main/terraform/modules
+      cd $(Build.SourcesDirectory)/terraform
       terraform apply tfplan
     displayName: 'Terraform Apply'
     
