@@ -10,7 +10,7 @@ pr: none
 
 jobs: 
 - job: HostedAgent
-  Pool:
+  pool:
     vmImage: 'windows-lastest'
   steps:
   - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@
