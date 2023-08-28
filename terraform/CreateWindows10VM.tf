@@ -1,12 +1,32 @@
+# Network Interface 생성
+resource "azurerm_network_interface" "default" {
+  name                = "default-nic-${random_integer.default.id}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.default.id
+    private_ip_address_allocation = "Dynamic"
+  }
+
+  tags = {
+    environment = "test"
+  }
+}
+
+resource "random_integer" "default" {
+  min = 1000
+  max = 9999
+}
+
 resource "azurerm_windows_virtual_machine" "VM" {
   name                = var.vm_name
   resource_group_name = var.resource_group_name
   location            = var.location
   size                = var.vm_size
 
-  network_interface_ids = [
-    "/subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Network/networkInterfaces/Automated_Test",
-  ]
+  network_interface_ids = [azurerm_network_interface.default.id]
 
   os_disk {
     caching              = var.os_disk_caching
