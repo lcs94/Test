@@ -6,14 +6,17 @@ data "local_file" "subnet_result" {
 locals {
   subnet_result = jsondecode(data.local_file.subnet_result.content)
 }
-
+output "subnet_result" {
+  value = local.subnet_result
+}
 
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
   name                 = "subnet-${random_integer.default[count.index].result}"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = [local.subnet_result] # PowerShell 스크립트 결과를 사용
+  address_prefixes     = [local.subnet_result.subnet]
+#  address_prefixes     = [local.subnet_result] # PowerShell 스크립트 결과를 사용
 #  address_prefixes     = [cidrsubnet(azurerm_virtual_network.default.address_space[0], 8, count.index)]
 }
 
