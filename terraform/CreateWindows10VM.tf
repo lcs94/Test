@@ -1,4 +1,9 @@
-# Network Interface 생성
+resource "azurerm_subnet" "default" {
+  name                 = "subnet-${random_integer.default.id}"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
 resource "azurerm_network_interface" "default" {
   name                = "default-nic-${random_integer.default.id}"
   resource_group_name = var.resource_group_name
