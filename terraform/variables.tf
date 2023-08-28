@@ -69,3 +69,8 @@ variable "os_disk_storage_type" {
   default     = "Premium_LRS"
   type        = string
 }
+
+variable "subnet_count" {
+  description = "Number of subnets to create"
+  default     = 2
+}
