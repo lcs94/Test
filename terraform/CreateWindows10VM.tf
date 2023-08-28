@@ -1,9 +1,12 @@
+# subnet_result.json 파일을 읽어와서 Terraform 변수로 할당하고 개행 문자 제거
 data "local_file" "subnet_result" {
   filename = "subnet_result.json"
 }
+
 locals {
-  subnet_result = jsondecode(data.local_file.subnet_result.content)
+  subnet_result = trimspace(jsondecode(data.local_file.subnet_result.content))
 }
+
 
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
