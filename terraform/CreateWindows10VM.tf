@@ -30,8 +30,7 @@ resource "random_integer" "default" {
 }
 
 resource "azurerm_virtual_network" "default" {
-  count                = var.subnet_count
-  name                = "vnet-${random_integer.default[count.index].result}"
+  name                = "vnet-default"
   resource_group_name = var.resource_group_name
   location            = var.location
   address_space       = ["10.0.0.0/16"]
