@@ -28,3 +28,9 @@ foreach ($subnetPrefix in $subnetAddressPrefixesArray) {
 
 # 선택한 비어 있는 대역을 JSON 파일에 저장
 $availablePrefix | ConvertTo-Json | Set-Content -Path "subnet_result.json"
+
+# JSON 파일에서 값을 읽어옴
+$subnetResult = Get-Content -Raw "subnet_result.json" | ConvertFrom-Json
+
+# 값을 출력
+Write-Host "Subnet Result: $subnetResult"

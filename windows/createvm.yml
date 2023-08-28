@@ -22,5 +22,5 @@ steps:
 - script: |
     export TF_LOG=TRACE
     cd $(Build.SourcesDirectory)/terraform
-    terraform apply -var="vm_name=testVM" -auto-approve
+    terraform apply -var="subnet_result=$(cat subnet_result.json)" -auto-approve
   displayName: 'Terraform Apply'
