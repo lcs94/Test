@@ -1,11 +1,14 @@
-# 현재 할당된 서브넷 대역 가져오기
-$subnetAddressPrefixes = @("10.0.0.0/24", "10.0.1.0/25") # Azure CLI 결과에 기반하여 수동으로 입력
+# Azure CLI로 서브넷 대역 가져오기
+$subnetAddressPrefixes = az network vnet subnet list --resource-group Automated_Test --vnet-name vnet-default --query "[].addressPrefix" --output tsv
+
+# PowerShell에서 배열로 변환
+$subnetAddressPrefixesArray = $subnetAddressPrefixes -split "`r`n"
 
 # 사용할 대역 범위 초기화
 $availablePrefix = "10.0.0.0/24"
 
 # 비어 있는 대역 찾기
-foreach ($subnetPrefix in $subnetAddressPrefixes) {
+foreach ($subnetPrefix in $subnetAddressPrefixesArray) {
     $subnetPrefix = $subnetPrefix.Trim()
     if ($subnetPrefix -ne $availablePrefix) {
         break
