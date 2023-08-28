@@ -22,23 +22,6 @@ jobs:
       terraform --version
     displayName: 'Terraform Version'
 
-  - script: |
-      az login --service-principal -u 0cd2a780-3598-4328-8db8-8b7ba273e024 -p 7wj8Q~ZoQE19B3yHSRlA9XoXzu63nIHjCWuI8a1Z --tenant c86959ed-45e5-47f5-8ef5-308ca79916fc
-      cd $(Agent.BuildDirectory)
-      
-    displayName: 'Create Windows 10 VM with Terraform'
-
-  - script: |
-      echo 'Running Terraform'
-      cd $(Build.SourcesDirectory)/terraform
-      terraform import azurerm_windows_virtual_machine.VM /subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Compute/virtualMachines/azurecliVM
-      terraform init
-      terraform plan -out=tfplan
-    displayName: 'Terraform Plan'
-
-  - script: |
-      cd $(Build.SourcesDirectory)/terraform
-      terraform apply tfplan
-    displayName: 'Terraform Apply'
+- template: windows/createvm.yml
     
 
