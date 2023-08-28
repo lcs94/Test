@@ -7,21 +7,22 @@ $subnetAddressPrefixesArray = $subnetAddressPrefixes -split "`r`n"
 # 사용할 대역 범위 초기화
 $availablePrefix = "10.0.0.0/24"
 
+if ($subnetAddressPrefixesArray.Length -eq 0) {
+    Write-Host "No subnet prefixes found. Adding default value..."
+    $subnetAddressPrefixesArray += "10.0.0.0/24"
+}
+
 # 비어 있는 대역 찾기
 foreach ($subnetPrefix in $subnetAddressPrefixesArray) {
     $subnetPrefix = $subnetPrefix.Trim()
-    if ($subnetPrefix -ne $availablePrefix) {
-        break
-    }
-
-    $subnet = [IPAddress]::Parse($subnetPrefix)
-    $subnetEnd = [IPAddress]::Parse($subnetPrefix) + 1
-
-    $availablePrefix = $subnetEnd.ToString()
     
-    # "10.0.10.0/24"까지만 확인하도록 변경
-    if ($availablePrefix -eq "10.0.10.0/24") {
-        break
+    # IP 주소 파싱 시도
+    try {
+        $subnet = [IPAddress]::Parse($subnetPrefix)
+    }
+    catch {
+        Write-Host "Invalid IP address: $subnetPrefix. Skipping..."
+        continue
     }
 }
 
