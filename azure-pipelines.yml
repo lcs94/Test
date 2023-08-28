@@ -1,7 +1,12 @@
-jobs:
-- job: Windows
+jobs: 
+- job: HostedAgent
   pool:
     vmImage: 'windows-latest'
+  steps:
+  - task: TerraformInstaller@0
+    inputs: 
+      terraformVersion: latest
+    displayName: Install Terraform
   steps:
   - script: echo This script runs before the template's steps, only on Windows.
   - template: windows/createvm.yml  # Template reference
