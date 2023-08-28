@@ -1,18 +1,20 @@
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
-  name                 = "subnet-${random_integer.default.id}"
+  name                 = "subnet-${count.index}"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = [cidrsubnet("172.29.0.0/16", 8, count.index)]
+  address_prefixes     = [cidrsubnet(azurerm_virtual_network.default.address_space[0], 8, count.index)]
 }
+
 resource "azurerm_network_interface" "default" {
-  name                = "default-nic-${random_integer.default.id}"
-  resource_group_name = var.resource_group_name
-  location            = var.location
+  count                = var.subnet_count
+  name                 = "nic-${count.index}"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.default.id
+    subnet_id                     = azurerm_subnet.default[count.index].id
     private_ip_address_allocation = "Dynamic"
   }
 
@@ -21,27 +23,20 @@ resource "azurerm_network_interface" "default" {
   }
 }
 
-resource "azurerm_virtual_network" "default" {
-  name                = "default-network"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-
-  address_space       = ["172.29.0.0/16"]
-}
-
-
 resource "random_integer" "default" {
-  min = 1000
-  max = 9999
+  count = var.subnet_count
+  min   = 1000
+  max   = 9999
 }
 
 resource "azurerm_windows_virtual_machine" "default" {
-  name                = var.vm_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  size                = var.vm_size
+  count                = var.subnet_count
+  name                 = "vm-${count.index}"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  size                 = var.vm_size
 
-  network_interface_ids = [azurerm_network_interface.default.id]
+  network_interface_ids = [azurerm_network_interface.default[count.index].id]
 
   os_disk {
     caching              = var.os_disk_caching
