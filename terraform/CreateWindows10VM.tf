@@ -4,7 +4,7 @@ data "local_file" "subnet_result" {
 }
 
 locals {
-  subnet_result = trimspace(jsondecode(data.local_file.subnet_result.content))
+  subnet_result = jsondecode(data.local_file.subnet_result.content)
 }
 
 
