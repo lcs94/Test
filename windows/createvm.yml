@@ -14,5 +14,5 @@ steps:
 
 - script: |
     cd $(Build.SourcesDirectory)/terraform
-    terraform apply tfplan
+    terraform apply -var="vm_name=testVM" tfplan
   displayName: 'Terraform Apply'
