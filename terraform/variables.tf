@@ -75,3 +75,9 @@ variable "subnet_count" {
   default     = 1
 }
 
+variable "subnet_result" {
+  type = string
+  description = "Subnet result from PowerShell script"
+  default = "10.0.0.0/24" # 기본값 설정
+}
+
