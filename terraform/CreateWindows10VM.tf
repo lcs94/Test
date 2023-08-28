@@ -38,7 +38,7 @@ resource "azurerm_virtual_network" "default" {
 
 resource "azurerm_windows_virtual_machine" "default" {
   count                = var.subnet_count
-  name                 = "vm-${random_integer.vm_id[count.index].result}"
+  name                 = "vm-${random_integer.default[count.index].result}"
   resource_group_name  = var.resource_group_name
   location             = var.location
   size                 = var.vm_size
