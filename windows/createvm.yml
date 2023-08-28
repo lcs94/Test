@@ -13,6 +13,7 @@ steps:
   displayName: 'Terraform Plan'
 
 - script: |
+    export TF_LOG=TRACE
     cd $(Build.SourcesDirectory)/terraform
-    terraform apply -var="vm_name=testVM"
+    terraform apply -var="vm_name=testVM" -auto-approve
   displayName: 'Terraform Apply'
