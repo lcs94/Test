@@ -7,6 +7,7 @@ steps:
 - script: |
     echo 'Running Terraform'
     cd $(Build.SourcesDirectory)/terraform
+    export TF_LOG=TRACE
     terraform init
     terraform plan -out=tfplan
   displayName: 'Terraform Plan'

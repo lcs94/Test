@@ -72,5 +72,5 @@ variable "os_disk_storage_type" {
 
 variable "subnet_count" {
   description = "Number of subnets to create"
-  default     = 2
+  default     = 1
 }
