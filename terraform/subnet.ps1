@@ -28,8 +28,8 @@ $unusedPrefixes = $availablePrefixes | Where-Object { $_ -notin $usedSubnets }
 # 하나의 대역만 선택
 $unusedPrefix = $unusedPrefixes[0]
 
-# subnet_result.json 파일에 사용 가능한 대역 저장
-$unusedPrefix | Set-Content -Path "subnet_result.json"
+# subnet_result.json 파일에 사용 가능한 대역 저장 (줄 바꿈 문자 제거)
+$unusedPrefix -replace '\r\n', '' | Set-Content -Path "subnet_result.json"
 
 # JSON 파일에서 값을 읽어옴
 $subnetResult = Get-Content -Raw "subnet_result.json"

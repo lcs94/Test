@@ -1,10 +1,6 @@
-# JSON 파일을 읽어들여 테라폼 변수에 할당
 data "local_file" "subnet_result" {
-  depends_on = [null_resource.run_subnet_script] # PowerShell 스크립트 실행 후에 읽도록 설정
-  filename   = "subnet_result.json"
+  filename = "subnet_result.json"
 }
-
-# 테라폼 변수에 PowerShell 스크립트 결과를 할당
 locals {
   subnet_result = jsondecode(data.local_file.subnet_result.content)
 }
