@@ -1,17 +1,13 @@
-jobs:
-- job: CreateVMJob  # 작업의 이름을 지정합니다.
-  pool:
-    vmImage: 'windows-latest'  # 사용할 에이전트 이미지를 지정합니다.
-  steps:
-  - script: |
-      echo 'Running Terraform'
-      cd $(Build.SourcesDirectory)/terraform
-      terraform import azurerm_windows_virtual_machine.VM /subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Compute/virtualMachines/azurecliVM
-      terraform init
-      terraform plan -out=tfplan
-    displayName: 'Terraform Plan'
+steps:
+- script: |
+    echo 'Running Terraform'
+    cd $(Build.SourcesDirectory)/terraform
+    terraform import azurerm_windows_virtual_machine.VM /subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Compute/virtualMachines/azurecliVM
+    terraform init
+    terraform plan -out=tfplan
+  displayName: 'Terraform Plan'
 
-  - script: |
-      cd $(Build.SourcesDirectory)/terraform
-      terraform apply tfplan
-    displayName: 'Terraform Apply'
+- script: |
+    cd $(Build.SourcesDirectory)/terraform
+    terraform apply tfplan
+  displayName: 'Terraform Apply'
