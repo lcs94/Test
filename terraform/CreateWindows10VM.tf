@@ -1,6 +1,6 @@
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
-  name                 = "subnet-${count.index}"
+  name                 = "subnet-${random_integer.subnet_id[count.index].result}"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = [cidrsubnet(azurerm_virtual_network.default.address_space[0], 8, count.index)]
@@ -8,7 +8,7 @@ resource "azurerm_subnet" "default" {
 
 resource "azurerm_network_interface" "default" {
   count                = var.subnet_count
-  name                 = "nic-${count.index}"
+  name                 = "nic-${random_integer.default[count.index].result}"
   resource_group_name  = var.resource_group_name
   location             = var.location
 
@@ -38,7 +38,7 @@ resource "azurerm_virtual_network" "default" {
 
 resource "azurerm_windows_virtual_machine" "default" {
   count                = var.subnet_count
-  name                 = "vm-${count.index}"
+  name                 = "vm-${random_integer.vm_id[count.index].result}"
   resource_group_name  = var.resource_group_name
   location             = var.location
   size                 = var.vm_size
