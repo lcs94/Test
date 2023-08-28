@@ -1,6 +1,6 @@
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
-  name                 = "subnet-${random_integer.subnet_id[count.index].result}"
+  name                 = "subnet-${random_integer.default[count.index].result}"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
   address_prefixes     = [cidrsubnet(azurerm_virtual_network.default.address_space[0], 8, count.index)]
