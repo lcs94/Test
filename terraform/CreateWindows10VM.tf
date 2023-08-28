@@ -1,9 +1,23 @@
+# 테라폼 변수 정의
+variable "subnet_result" {}
+
+# JSON 파일을 읽어들여 테라폼 변수에 할당
+data "local_file" "subnet_result" {
+  depends_on = [null_resource.run_subnet_script] # PowerShell 스크립트 실행 후에 읽도록 설정
+  filename   = "subnet_result.json"
+}
+
+# 테라폼 변수에 PowerShell 스크립트 결과를 할당
+locals {
+  subnet_result = jsondecode(data.local_file.subnet_result.content)
+}
+
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
   name                 = "subnet-${random_integer.default[count.index].result}"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.default.name
-# address_prefixes     = ["10.0.1.0/25"]
+  address_prefixes     = [local.subnet_result] # PowerShell 스크립트 결과를 사용
 #  address_prefixes     = [cidrsubnet(azurerm_virtual_network.default.address_space[0], 8, count.index)]
 }
 

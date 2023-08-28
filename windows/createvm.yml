@@ -4,6 +4,11 @@ steps:
     cd $(Agent.BuildDirectory)
   displayName: 'Azure Login'
 
+  - powershell: |
+    ./subnet.ps1
+  displayName: 'Run Subnet Script'
+  workingDirectory: $(Build.SourcesDirectory)/terraform
+
 - script: |
     echo 'Running Terraform'
     cd $(Build.SourcesDirectory)/terraform
