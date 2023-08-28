@@ -8,8 +8,7 @@ steps:
     echo 'Running Terraform'
     cd $(Build.SourcesDirectory)/terraform
     export TF_LOG=TRACE
-
-    terraform import azurerm_virtual_network.default /subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Network/virtualNetworks/vnet-default
+    
     terraform init
     terraform plan -out=tfplan
   displayName: 'Terraform Plan'
