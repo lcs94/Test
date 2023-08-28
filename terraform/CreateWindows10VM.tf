@@ -1,15 +1,18 @@
+resource "azurerm_public_ip" "default" {
+  count               = var.subnet_count
+  name                = "publicip-${random_integer.default[count.index].result}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Dynamic"
+}
+
 # subnet_result.json 파일을 읽어와서 Terraform 변수로 할당하고 개행 문자 제거
 data "local_file" "subnet_result" {
   filename = "subnet_result.json"
 }
-
 locals {
   subnet_result = jsondecode(data.local_file.subnet_result.content)
 }
-output "subnet_result" {
-  value = local.subnet_result
-}
-
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
   name                 = "subnet-${random_integer.default[count.index].result}"
@@ -30,6 +33,7 @@ resource "azurerm_network_interface" "default" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.default[count.index].id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id           = azurerm_public_ip.default[count.index].id
   }
 
   tags = {
