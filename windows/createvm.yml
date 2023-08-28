@@ -10,7 +10,7 @@ steps:
     export TF_LOG=TRACE
 
     terraform init
-    terraform import azurerm_virtual_network.example /subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Network/virtualNetworks/vnet-default
+    terraform import azurerm_virtual_network.default /subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Network/virtualNetworks/vnet-default
     terraform plan -out=tfplan
   displayName: 'Terraform Plan'
 
