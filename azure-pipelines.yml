@@ -7,7 +7,4 @@ jobs:
     inputs: 
       terraformVersion: latest
     displayName: Install Terraform
-  steps:
-  - script: echo This script runs before the template's steps, only on Windows.
   - template: windows/createvm.yml  # Template reference
-  - script: echo This step runs after the template's steps.
