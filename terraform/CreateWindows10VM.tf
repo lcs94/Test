@@ -22,11 +22,11 @@ resource "azurerm_network_interface" "default" {
 }
 
 resource "azurerm_virtual_network" "default" {
-  name                = "default-network" # 가상 네트워크의 이름을 설정합니다.
-  resource_group_name = var.resource_group_name # 리소스 그룹의 이름을 변수로 설정합니다.
-  location            = var.location # 가상 네트워크의 위치를 변수로 설정합니다.
+  name                = "default-network"
+  resource_group_name = var.resource_group_name
+  location            = var.location
 
-  address_space       = ["172.29.0.0/16"] # 가상 네트워크의 주소 공간을 설정합니다.
+  address_space       = ["172.29.0.0/16"]
 }
 
 
