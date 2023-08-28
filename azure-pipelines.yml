@@ -1,27 +1,7 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- main
-
-pr: none
-
-jobs: 
-- job: HostedAgent
+- job: Windows
   pool:
     vmImage: 'windows-latest'
   steps:
-  - task: TerraformInstaller@0
-    inputs: 
-      terraformVersion: latest
-    displayName: Install Terraform
-
-  - script: |
-      terraform --version
-    displayName: 'Terraform Version'
-
-- template: windows/createvm.yml
-    
-
+  - script: echo This script runs before the template's steps, only on Windows.
+  - template: windows/createvm.yml  # Template reference
+  - script: echo This step runs after the template's steps.
