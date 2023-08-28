@@ -9,10 +9,11 @@ $availablePrefix = "10.0.0.0/24"
 
 if ($subnetAddressPrefixesArray.Length -eq 0) {
     Write-Host "No subnet prefixes found. Adding default value..."
-    $subnetAddressPrefixesArray += "10.0.0.0/24"
+    $subnetAddressPrefixesArray += $availablePrefix
 }
 
 # 비어 있는 대역 찾기
+$emptySubnets = @()
 foreach ($subnetPrefix in $subnetAddressPrefixesArray) {
     $subnetPrefix = $subnetPrefix.Trim()
     
@@ -24,13 +25,18 @@ foreach ($subnetPrefix in $subnetAddressPrefixesArray) {
         Write-Host "Invalid IP address: $subnetPrefix. Skipping..."
         continue
     }
+
+    # 대역이 비어 있다면 추가
+    if ($subnet -eq $null) {
+        $emptySubnets += $subnetPrefix
+    }
 }
 
-# 선택한 비어 있는 대역을 JSON 파일에 저장
-$availablePrefix | ConvertTo-Json | Set-Content -Path "subnet_result.json"
+# 비어 있는 대역을 JSON 파일에 저장
+$emptySubnets | ConvertTo-Json | Set-Content -Path "subnet_result.json"
 
 # JSON 파일에서 값을 읽어옴
 $subnetResult = Get-Content -Raw "subnet_result.json" | ConvertFrom-Json
 
 # 값을 출력
-Write-Host "Subnet Result: $subnetResult"
+Write-Host "Empty Subnets: $subnetResult"
