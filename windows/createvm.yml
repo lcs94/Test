@@ -7,7 +7,7 @@ steps:
 - powershell: |
     ./subnet.ps1
   displayName: 'Run Subnet Script'
-  workingDirectory: $(Build.SourcesDirectory)/terraform
+  workingDirectory: $(Build.SourcesDirectory)/windows
 
 - script: |
     echo 'Running Terraform'
