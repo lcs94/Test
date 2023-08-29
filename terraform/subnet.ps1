@@ -15,8 +15,7 @@ $availablePrefixes = @(
     "10.0.6.0/24",
     "10.0.7.0/24",
     "10.0.8.0/24",
-    "10.0.9.0/24",
-    "10.0.10.0/24"
+    "10.0.9.0/24"
 )
 
 # 이미 사용 중인 대역을 모두 가져오기
@@ -39,5 +38,5 @@ $jsonData | Set-Content -Path "subnet_result.json"
 # JSON 파일에서 값을 읽어옴
 $subnetResult = Get-Content -Raw "subnet_result.json"
 
-# 값을 출력
+# 출력
 Write-Host "Unused Subnet: $subnetResult"

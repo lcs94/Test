@@ -6,7 +6,7 @@ resource "azurerm_public_ip" "default" {
   allocation_method   = "Dynamic"
 }
 
-# subnet_result.json 파일을 읽어와서 Terraform 변수로 할당하고 개행 문자 제거
+# subnet_result.json 파일을 읽어와서 Terraform 변수로 할당
 data "local_file" "subnet_result" {
   filename = "subnet_result.json"
 }
