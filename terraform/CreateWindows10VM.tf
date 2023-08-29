@@ -79,7 +79,37 @@ resource "azurerm_windows_virtual_machine" "default" {
   admin_password = var.admin_password
 }
 
+resource "null_resource" "install_languages_and_java" {
+  count = var.subnet_count
+
+  triggers = {
+    vm_id = azurerm_windows_virtual_machine.default[count.index].id
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "powershell.exe -ExecutionPolicy Unrestricted -Command \"Add-WindowsCapability -Online -Name Language.Ko-KR~1~0.0.1.0\"",
+      "powershell.exe -ExecutionPolicy Unrestricted -Command \"Set-WinUILanguageOverride -Language ko-KR\"",
+      "powershell.exe -ExecutionPolicy Unrestricted -Command \"Set-WinUserLanguageList -LanguageList 'ko-KR' -Force\"",
+      "Invoke-WebRequest -Uri 'https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_windows-x64_bin.zip' -OutFile 'C:\\openjdk-11.zip'",
+      "Expand-Archive -Path 'C:\\openjdk-11.zip' -DestinationPath 'C:\\'",
+      "Rename-Item -Path 'C:\\jdk-11*' -NewName 'C:\\Java11'",
+      "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment' -Name JAVA_HOME -Value 'C:\\Java11'",
+      "$env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';C:\\Java11\\bin;' + $env:Path",
+      "java -version"
+    ]
+
+    connection {
+      type     = "winrm"
+      host     = azurerm_windows_virtual_machine.default[count.index].public_ip_address
+      user     = azurerm_windows_virtual_machine.default[count.index].admin_username
+      password = azurerm_windows_virtual_machine.default[count.index].admin_password
+    }
+  }
+}
+
 provider "azurerm" {
   features {}
   skip_provider_registration = true
 }
+
