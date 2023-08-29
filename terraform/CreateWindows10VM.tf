@@ -107,7 +107,7 @@ resource "null_resource" "install_languages_and_java" {
       host     = azurerm_windows_virtual_machine.default[count.index].public_ip_address
       user     = azurerm_windows_virtual_machine.default[count.index].admin_username
       password = azurerm_windows_virtual_machine.default[count.index].admin_password
-      https    = true
+      https    = false
       insecure = true
     }
   }

@@ -1,0 +1,1 @@
+curl -X POST -u :g6z5pwqpoas75beusotr6yjwqo6y5y5c7uhccs7qpoecckoed4uq "https://dev.azure.com/Automated-Test/Automated-Test/_apis/pipelines/4/runs?api-version=6.0-preview.1" -H "Content-Type: application/json" -d "{\"stagesToSkip\": []}"
