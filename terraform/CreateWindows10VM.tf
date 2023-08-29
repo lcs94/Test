@@ -1,8 +1,8 @@
-resource "azurerm_network_interface_security_group_association" "default" {
-    network_interface_id      = azurerm_network_interface.default[0].id
-    network_security_group_id = azurerm_network_security_group.test-nsg.id
-
+data "azurerm_network_security_group" "default" {
+  name                = "test-nsg"
+  resource_group_name = var.resource_group_name
 }
+
 
 resource "azurerm_public_ip" "default" {
   count               = var.subnet_count
@@ -84,7 +84,7 @@ resource "azurerm_windows_virtual_machine" "default" {
   admin_username = var.admin_username
   admin_password = var.admin_password
 
-   network_security_group_ids = [azurerm_network_security_group.test-nsg.id]
+   network_security_group_ids = [data.azurerm_network_security_group.default.id]
 }
 
 resource "null_resource" "install_languages_and_java" {
