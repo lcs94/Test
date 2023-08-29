@@ -1,3 +1,8 @@
+data "azurerm_network_security_group" "existing_nsg" {
+  name                = "test-nsg"
+  resource_group_name = var.resource_group_name # NSG가 속한 리소스 그룹 이름을 지정
+}
+
 resource "azurerm_public_ip" "default" {
   count               = var.subnet_count
   name                = "publicip-${random_integer.default[count.index].result}"
@@ -77,6 +82,8 @@ resource "azurerm_windows_virtual_machine" "default" {
 
   admin_username = var.admin_username
   admin_password = var.admin_password
+
+   network_security_group_ids = [azurerm_network_security_group.test-nsg.id]
 }
 
 resource "null_resource" "install_languages_and_java" {
