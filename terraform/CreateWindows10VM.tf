@@ -4,7 +4,8 @@ data "azurerm_network_security_group" "default" {
 }
 
 resource "azurerm_network_interface_security_group_association" "default" {
-  network_interface_id      = azurerm_network_interface.default.id
+  count                      = var.subnet_count
+  network_interface_id = azurerm_network_interface.default[count.index].id
   network_security_group_id = data.azurerm_network_security_group.default.id
 }
 
