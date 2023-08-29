@@ -1,6 +1,12 @@
+# Azure portal 
 data "azurerm_network_security_group" "default" {
   name                = "test-nsg"
   resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_network_interface_security_group_association" "default" {
+  network_interface_id      = azurerm_network_interface.default[0].id
+  network_security_group_id = data.azurerm_network_security_group.default.id
 }
 
 
@@ -84,7 +90,7 @@ resource "azurerm_windows_virtual_machine" "default" {
   admin_username = var.admin_username
   admin_password = var.admin_password
 
-   network_security_group_ids = [data.azurerm_network_security_group.default.id]
+   network_security_group_ids = [azurerm_network_security_group.default.id]
 }
 
 resource "null_resource" "install_languages_and_java" {
