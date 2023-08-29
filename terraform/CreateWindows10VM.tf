@@ -1,6 +1,7 @@
-data "azurerm_network_security_group" "existing_nsg" {
-  name                = "test-nsg"
-  resource_group_name = var.resource_group_name # NSG가 속한 리소스 그룹 이름을 지정
+resource "azurerm_network_interface_security_group_association" "default" {
+    network_interface_id      = azurerm_network_interface.default[0].id
+    network_security_group_id = azurerm_network_security_group.test-nsg.id
+
 }
 
 resource "azurerm_public_ip" "default" {
