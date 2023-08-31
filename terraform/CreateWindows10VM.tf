@@ -91,28 +91,6 @@ resource "azurerm_windows_virtual_machine" "default" {
   admin_password = var.admin_password
 }
 
-resource "null_resource" "install_languages_and_java" {
-  count = var.subnet_count
-
-  triggers = {
-    vm_id = azurerm_windows_virtual_machine.default[count.index].id
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "powershell.exe -NonInteractive -NoProfile -ExecutionPolicy Bypass -Command \"Write-Output 'Hello from Terraform'\"",
-    ]
-
-    connection {
-      type     = "winrm"
-      host     = azurerm_windows_virtual_machine.default[count.index].public_ip_address
-      user     = azurerm_windows_virtual_machine.default[count.index].admin_username
-      password = azurerm_windows_virtual_machine.default[count.index].admin_password
-      https    = false
-      insecure = true
-    }
-  }
-}
-
 provider "azurerm" {
   features {}
   skip_provider_registration = true
