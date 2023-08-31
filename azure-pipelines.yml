@@ -17,13 +17,15 @@ jobs:
     vmImage: 'windows-latest'
   steps:
   - powershell: |
-      Write-Host "##vso[task.setvariable variable=CUSTOM_PARAM_1;]$(customParameter1)"
-      Write-Host "##vso[task.setvariable variable=CUSTOM_PARAM_2;]$(customParameter2)"
-      Write-Host "##vso[task.setvariable variable=CUSTOM_PARAM_3;]$(customParameter3)"
+      # 환경 변수로 값을 설정
+      $env:CUSTOM_PARAM_1 = "$(customParameter1)"
+      $env:CUSTOM_PARAM_2 = "$(customParameter2)"
+      $env:CUSTOM_PARAM_3 = "$(customParameter3)"
   - powershell: |
-      Write-Host "You can use macro syntax for variables: $(customParameter1)"
-      Write-Host "You can use macro syntax for variables: $(customParameter2)"
-      Write-Host "You can use macro syntax for variables: $(customParameter3)"
+      # 환경 변수 사용
+      Write-Host "You can use macro syntax for variables: $env:CUSTOM_PARAM_1"
+      Write-Host "You can use macro syntax for variables: $env:CUSTOM_PARAM_2"
+      Write-Host "You can use macro syntax for variables: $env:CUSTOM_PARAM_3"
   - task: TerraformInstaller@0
     inputs: 
       terraformVersion: latest
