@@ -20,7 +20,6 @@ jobs:
     inputs: 
       terraformVersion: latest
     displayName: Install Terraform
-  - template: windows/createvm.yml  # Template reference
   - script: |
       echo "Setting Custom Parameter 1 Value..."
       echo "##vso[task.setvariable variable=CUSTOM_PARAM_1;isOutput=true]$(customParameter1)"
@@ -38,3 +37,4 @@ jobs:
       echo "Custom Parameter 2 Value: $(CUSTOM_PARAM_2)"
       echo "Custom Parameter 3 Value: $(CUSTOM_PARAM_3)"
     displayName: 'Print Custom Parameter'
+  - template: windows/createvm.yml  # Template reference
