@@ -13,3 +13,6 @@ jobs:
       terraformVersion: latest
     displayName: Install Terraform
   - template: windows/createvm.yml  # Template reference
+  - script: |
+      echo "Custom Parameter Value: $(customParameter)"
+    displayName: 'Print Custom Parameter'
