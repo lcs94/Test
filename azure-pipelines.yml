@@ -1,7 +1,7 @@
 parameters:
 - name: customParameter
   type: string
-
+  default: ' '
 
 jobs: 
 - job: HostedAgent
