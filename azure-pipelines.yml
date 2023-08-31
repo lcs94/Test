@@ -16,20 +16,14 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   steps:
+  - powershell: |
+      Write-Host "##vso[task.setvariable variable=myVar;]foo"
+  - powershell: |
+      Write-Host "You can use macro syntax for variables: $(myVar)"
   - task: TerraformInstaller@0
     inputs: 
       terraformVersion: latest
     displayName: Install Terraform
-    - powershell: |
-      Write-Host "##vso[task.setvariable variable=myJobVar]this is the same job"
-    - powershell: |
-      Write-Host "##vso[task.setvariable variable=myOutputJobVar;isoutput=true]this is the same job too"
-    name: setOutput
-    - powershell: |
-      Write-Host $(myJobVar) 
-    - powershell: |
-      Write-Host $(setOutput.myOutputJobVar)
-
   - script: |
       echo "Setting Custom Parameter 2 Value..."
       echo "##vso[task.setvariable variable=CUSTOM_PARAM_2;isOutput=true]$(customParameter2)"
