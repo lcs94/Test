@@ -1,4 +1,4 @@
-resource "example_resource" "default" {
+resource "my_resource" "default" {
   testimg = var.TESTIMG
   issue   = var.ISSUE
   test    = var.TEST
