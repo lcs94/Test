@@ -1,3 +1,15 @@
+variable "TESTIMG" {
+  type = string
+}
+
+variable "ISSUE" {
+  type = string
+}
+
+variable "TEST" {
+  type = string
+}
+
 variable "resource_group_name" {
   description = "The name of the resource group."
   default     = "Automated_Test"

@@ -1,14 +1,3 @@
-parameters:
-  - name: customParameter1
-    type: string
-    default: ''
-  - name: customParameter2
-    type: string
-    default: ''
-  - name: customParameter3
-    type: string
-    default: ''
-
 jobs: 
 - job: HostedAgent
   pool:
@@ -22,5 +11,6 @@ jobs:
       echo "TESTIMG: $(TESTIMG)"
       echo "ISSUE: $(ISSUE)"
       echo "TEST: $(TEST)"
+  displayName: 'Output Parameters'
     displayName: 'Output Parameters'
   - template: windows/createvm.yml  # Template reference

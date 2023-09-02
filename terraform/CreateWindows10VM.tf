@@ -1,3 +1,10 @@
+resource "example_resource" "default" {
+  testimg = var.TESTIMG
+  issue   = var.ISSUE
+  test    = var.TEST
+  # 기타 리소스 설정
+}
+
 data "azurerm_network_security_group" "default" {
   name                = "test-nsg"
   resource_group_name = var.resource_group_name
