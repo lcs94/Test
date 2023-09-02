@@ -7,13 +7,9 @@ steps:
 - powershell: |
     cd $(Build.SourcesDirectory)/terraform
     ./subnet.ps1
-  displayName: 'Run Subnet Script'
-  workingDirectory: $(Build.SourcesDirectory)/terraform
-
-  - powershell: |
     cd $(Build.SourcesDirectory)/terraform
     ./variables.ps1
-  displayName: 'Run variables Script'
+  displayName: 'Run Subnet Script'
   workingDirectory: $(Build.SourcesDirectory)/terraform
 
 - script: |
@@ -29,5 +25,5 @@ steps:
 - script: |
     export TF_LOG=TRACE
     cd $(Build.SourcesDirectory)/terraform
-    terraform apply -var="TESTIMG=$(TESTIMG)" -var="ISSUE=$(ISSUE)" -var="TEST=$(TEST)" -var="subnet_result=$(cat subnet_result.json)" -auto-approve
+    terraform apply -var="subnet_result=$(cat subnet_result.json)" -var="variables_result=$(cat variables_result.json)" -auto-approve
   displayName: 'Terraform Apply'
