@@ -1,18 +1,3 @@
-variable "TESTIMG" {
-  description = "Test img"
-  type        = string
-}
-
-variable "ISSUE" {
-  description = "Test Issue"
-  type        = string
-}
-
-variable "TEST" {
-  description = "test"
-  type        = string
-}
-
 variable "resource_group_name" {
   description = "The name of the resource group."
   default     = "Automated_Test"
@@ -96,3 +81,7 @@ variable "subnet_result" {
   default = "10.0.0.0/24" # 기본값 설정
 }
 
+variable "variables_result" {
+  description = "JSON data from PowerShell script"
+  type        = string
+}
