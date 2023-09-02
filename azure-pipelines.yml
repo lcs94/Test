@@ -19,7 +19,8 @@ jobs:
       terraformVersion: latest
     displayName: Install Terraform
   - script: |
-      echo "변수1: $(변수1)"
-      echo "변수2: $(변수2)"
+      echo "TESTIMG: $(TESTIMG)"
+      echo "ISSUE: $(ISSUE)"
+      echo "TEST: $(TEST)"
     displayName: 'Output Parameters'
   - template: windows/createvm.yml  # Template reference
