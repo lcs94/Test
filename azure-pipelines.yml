@@ -11,6 +11,5 @@ jobs:
       echo "TESTIMG: $(TESTIMG)"
       echo "ISSUE: $(ISSUE)"
       echo "TEST: $(TEST)"
-  displayName: 'Output Parameters'
     displayName: 'Output Parameters'
   - template: windows/createvm.yml  # Template reference
