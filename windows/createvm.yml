@@ -25,8 +25,8 @@ steps:
     cd $(Build.SourcesDirectory)/terraform
     terraform apply \
       -var "subnet_result=$(Get-Content subnet_result.json)" \
-      -var "testimg=$(TESTIMG)" \
-      -var "issue=$(ISSUE)" \
-      -var "test=$(TEST)" \
+      -var "TESTING=$(TESTIMG)" \
+      -var "ISSUE=$(ISSUE)" \
+      -var "TEST=$(TEST)" \
       -auto-approve
   displayName: 'Terraform Apply'
