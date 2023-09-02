@@ -1,13 +1,16 @@
 variable "TESTIMG" {
-  type = string
+  description = "Test img"
+  type        = string
 }
 
 variable "ISSUE" {
-  type = string
+  description = "Test Issue"
+  type        = string
 }
 
 variable "TEST" {
-  type = string
+  description = "test"
+  type        = string
 }
 
 variable "resource_group_name" {
