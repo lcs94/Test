@@ -23,5 +23,10 @@ steps:
 - script: |
     export TF_LOG=TRACE
     cd $(Build.SourcesDirectory)/terraform
-    terraform apply -var="subnet_result=$(cat subnet_result.json)" -auto-approve
+    terraform apply \
+      -var "subnet_result=$(Get-Content subnet_result.json)" \
+      -var "testimg=$(TESTIMG)" \
+      -var "issue=$(ISSUE)" \
+      -var "test=$(TEST)" \
+      -auto-approve
   displayName: 'Terraform Apply'
