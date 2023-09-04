@@ -32,18 +32,6 @@ locals {
   subnet_result = jsondecode(data.local_file.subnet_result.content)
 }
 
-# variables.json 파일을 읽어와서 Terraform 변수로 할당
-data "local_file" "variables_result" {
-  filename = "variables_result.json"
-}
-
-resource "example_resource" "default" {
-  testimg = local.variables_result.TESTIMG
-  issue   = local.variables_result.ISSUE
-  test    = local.variables_result.TEST
-  # 기타 리소스 설정
-}
-
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
   name                 = "subnet-${random_integer.default[count.index].result}"
