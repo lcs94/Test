@@ -1,4 +1,4 @@
-resource "my_resource" "default" {
+resource "azure_test_resource" "default" {
   testimg = var.TESTIMG
   issue   = var.ISSUE
   test    = var.TEST
