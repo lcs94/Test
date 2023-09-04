@@ -12,9 +12,9 @@ jobs:
       echo "ISSUE: $(ISSUE)"
       echo "TEST: $(TEST)"
     displayName: 'Output Parameters'
-  - powershell: |
-      $env:TESTIMG = $(TESTIMG)
-      $env:ISSUE = $(ISSUE)
-      $env:TEST = $(TEST)
+  - script: |
+      echo "##vso[task.setvariable variable=TESTIMG]$(TESTIMG)"
+      echo "##vso[task.setvariable variable=ISSUE]$(ISSUE)"
+      echo "##vso[task.setvariable variable=TEST]$(TEST)"
     displayName: 'Set Variables'
   - template: windows/createvm.yml  # Template reference
