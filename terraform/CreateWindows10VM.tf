@@ -1,9 +1,3 @@
-resource "azure_test_resource" "default" {
-  testimg = var.TESTIMG
-  issue   = var.ISSUE
-  test    = var.TEST
-}
-
 data "azurerm_network_security_group" "default" {
   name                = "test-nsg"
   resource_group_name = var.resource_group_name
@@ -31,7 +25,6 @@ data "local_file" "subnet_result" {
 locals {
   subnet_result = jsondecode(data.local_file.subnet_result.content)
 }
-
 resource "azurerm_subnet" "default" {
   count                = var.subnet_count
   name                 = "subnet-${random_integer.default[count.index].result}"
@@ -102,4 +95,3 @@ provider "azurerm" {
   features {}
   skip_provider_registration = true
 }
-
