@@ -80,8 +80,3 @@ variable "subnet_result" {
   description = "Subnet result from PowerShell script"
   default = "10.0.0.0/24" # 기본값 설정
 }
-
-variable "variables_result" {
-  description = "JSON data from PowerShell script"
-  type        = string
-}
