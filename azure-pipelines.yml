@@ -11,8 +11,10 @@ jobs:
       echo "TESTIMG: $(TESTIMG)"
       echo "ISSUE: $(ISSUE)"
       echo "TEST: $(TEST)"
-      $env:TESTIMG = $(TESTIMG)
+    displayName: 'Output Parameters'
+  - powershell: |
+       $env:TESTIMG = $(TESTIMG)
       $env:ISSUE = $(ISSUE)
       $env:TEST = $(TEST)
-    displayName: 'Output Parameters'
+    displayName: 'Set Variables'
   - template: windows/createvm.yml  # Template reference
