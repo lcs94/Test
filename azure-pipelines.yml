@@ -11,5 +11,8 @@ jobs:
       echo "TESTIMG: $(TESTIMG)"
       echo "ISSUE: $(ISSUE)"
       echo "TEST: $(TEST)"
+      $env:TESTIMG = $(TESTIMG)
+      $env:ISSUE = $(ISSUE)
+      $env:TEST = $(TEST)
     displayName: 'Output Parameters'
   - template: windows/createvm.yml  # Template reference
