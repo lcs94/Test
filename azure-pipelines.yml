@@ -13,7 +13,7 @@ jobs:
       echo "TEST: $(TEST)"
     displayName: 'Output Parameters'
   - powershell: |
-       $env:TESTIMG = $(TESTIMG)
+      $env:TESTIMG = $(TESTIMG)
       $env:ISSUE = $(ISSUE)
       $env:TEST = $(TEST)
     displayName: 'Set Variables'
