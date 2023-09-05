@@ -90,25 +90,26 @@ resource "azurerm_windows_virtual_machine" "default" {
   admin_username = var.admin_username
   admin_password = var.admin_password
   
-  os_profile_windows_config {
-    provision_vm_agent = true
-    winrm {
-      protocol = "http"
-    }
-    additional_unattend_config {
-      pass         = "oobeSystem"
-      component    = "Microsoft-Windows-Shell-Setup"
-      setting_name = "AutoLogon"
-      content      = "<AutoLogon><Password><Value>${var.admin_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.admin_username}</Username></AutoLogon>"
-    }
+  
+#  os_profile_windows_config {
+#    provision_vm_agent = true
+#    winrm {
+#      protocol = "http"
+#    }
+#    additional_unattend_config {
+#      pass         = "oobeSystem"
+#      component    = "Microsoft-Windows-Shell-Setup"
+#      setting_name = "AutoLogon"
+#      content      = "<AutoLogon><Password><Value>${var.admin_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.admin_username}</Username></AutoLogon>"
+#    }
 
-    additional_unattend_config {
-      pass         = "oobeSystem"
-      component    = "Microsoft-Windows-Shell-Setup"
-      setting_name = "FirstLogonCommands"
-      content      = file("./files/terraform/FirstLogonCommands.xml")
-    }
-  }
+#    additional_unattend_config {
+#      pass         = "oobeSystem"
+#      component    = "Microsoft-Windows-Shell-Setup"
+#      setting_name = "FirstLogonCommands"
+#      content      = file("./files/terraform/FirstLogonCommands.xml")
+#    }
+#  }
   provisioner "file" {
     source      = "files/config.ps1"
     destination = "c:/terraform/config.ps1"
