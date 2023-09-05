@@ -87,10 +87,8 @@ resource "azurerm_windows_virtual_machine" "default" {
     version   = var.windows_version
   }
 
-  os_profile {
-    admin_username = var.admin_username
-    admin_password = var.admin_password
-  }  
+  admin_username = var.admin_username
+  admin_password = var.admin_password
   
   os_profile_windows_config {
     provision_vm_agent = true
