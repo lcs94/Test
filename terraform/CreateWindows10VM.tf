@@ -86,21 +86,30 @@ resource "azurerm_windows_virtual_machine" "default" {
     sku       = var.sku
     version   = var.windows_version
   }
-
-  admin_username = var.admin_username
-  admin_password = var.admin_password
-
+  
   os_profile {
-    windows_config {
-      provision_vm_agent = true
-      winrm {
-        protocol = "http"
-      }
+    admin_username = var.admin_username
+    admin_password = var.admin_password
+  }
+
+  os_profile_windows_config {
+    provision_vm_agent = true
+    winrm {
+      protocol = "http"
+    }
+    additional_unattend_config {
+      pass         = "oobeSystem"
+      component    = "Microsoft-Windows-Shell-Setup"
+      setting_name = "AutoLogon"
+      content      = "<AutoLogon><Password><Value>${var.admin_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.admin_username}</Username></AutoLogon>"
     }
 
-    custom_data = file("./files/terraform/FirstLogonCommands.xml")
-
-    computer_name = "Tester"
+    additional_unattend_config {
+      pass         = "oobeSystem"
+      component    = "Microsoft-Windows-Shell-Setup"
+      setting_name = "FirstLogonCommands"
+      content      = file("./files/terraform/FirstLogonCommands.xml")
+    }
   }
 
   provisioner "file" {
