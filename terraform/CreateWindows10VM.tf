@@ -72,6 +72,9 @@ resource "azurerm_windows_virtual_machine" "default" {
   resource_group_name  = var.resource_group_name
   location             = var.location
   size                 = var.vm_size
+  admin_username = var.admin_username
+  admin_password = var.admin_password
+  user_data                       = base64encode("Hello World!")
 
   network_interface_ids = [azurerm_network_interface.default[count.index].id]
 
@@ -85,42 +88,6 @@ resource "azurerm_windows_virtual_machine" "default" {
     offer     = var.offer
     sku       = var.sku
     version   = var.windows_version
-  }
-
-  os_profile {
-    admin_username = "Tester"
-    admin_password = "Tester1234$"
-  }
-
-  os_profile_windows_config {
-    provision_vm_agent = true
-    winrm {
-      protocol = "http"
-    }
-    additional_unattend_config {
-      pass         = "oobeSystem"
-      component    = "Microsoft-Windows-Shell-Setup"
-      setting_name = "AutoLogon"
-      content      = "<AutoLogon><Password><Value>${var.admin_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.admin_username}</Username></AutoLogon>"
-    }
-
-    additional_unattend_config {
-      pass         = "oobeSystem"
-      component    = "Microsoft-Windows-Shell-Setup"
-      setting_name = "FirstLogonCommands"
-      content      = file("./files/terraform/FirstLogonCommands.xml")
-    }
-  }
-
-  provisioner "file" {
-    source      = "files/config.ps1"
-    destination = "c:/terraform/config.ps1"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "PowerShell.exe -ExecutionPolicy Bypass c:\\terraform\\config.ps1",
-    ]
   }
 }
 
