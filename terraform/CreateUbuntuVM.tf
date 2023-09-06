@@ -1,19 +1,19 @@
-data "azurerm_network_security_group" "default" {
+data "azurerm_network_security_group" "ubuntu" {
   name                = "test-nsg"
   resource_group_name = var.resource_group_name
 }
 
 
-resource "azurerm_network_interface_security_group_association" "default" {
+resource "azurerm_network_interface_security_group_association" "ubuntu" {
   count                      = var.subnet_count
-  network_interface_id = azurerm_network_interface.default[count.index].id
-  network_security_group_id = data.azurerm_network_security_group.default.id
+  network_interface_id = azurerm_network_interface.ubuntu[count.index].id
+  network_security_group_id = data.azurerm_network_security_group.ubuntu.id
 }
 
 # Azure portal 
-resource "azurerm_public_ip" "default" {
+resource "azurerm_public_ip" "ubuntu" {
   count               = var.subnet_count
-  name                = "publicip-${random_integer.default[count.index].result}"
+  name                = "publicip-${random_integer.ubuntu[count.index].result}"
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Dynamic"
@@ -26,27 +26,27 @@ data "local_file" "subnet_result" {
 locals {
   subnet_result = jsondecode(data.local_file.subnet_result.content)
 }
-resource "azurerm_subnet" "default" {
+resource "azurerm_subnet" "ubuntu" {
   count                = var.subnet_count
-  name                 = "subnet-${random_integer.default[count.index].result}"
+  name                 = "subnet-${random_integer.ubuntu[count.index].result}"
   resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.default.name
+  virtual_network_name = azurerm_virtual_network.ubuntu.name
   address_prefixes     = [local.subnet_result.subnet]
 #  address_prefixes     = [local.subnet_result] # PowerShell 스크립트 결과를 사용
-#  address_prefixes     = [cidrsubnet(azurerm_virtual_network.default.address_space[0], 8, count.index)]
+#  address_prefixes     = [cidrsubnet(azurerm_virtual_network.ubuntu.address_space[0], 8, count.index)]
 }
 
-resource "azurerm_network_interface" "default" {
+resource "azurerm_network_interface" "ubuntu" {
   count                = var.subnet_count
-  name                 = "nic-${random_integer.default[count.index].result}"
+  name                 = "nic-${random_integer.ubuntu[count.index].result}"
   resource_group_name  = var.resource_group_name
   location             = var.location
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.default[count.index].id
+    subnet_id                     = azurerm_subnet.ubuntu[count.index].id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id           = azurerm_public_ip.default[count.index].id
+    public_ip_address_id           = azurerm_public_ip.ubuntu[count.index].id
   }
 
   tags = {
@@ -54,14 +54,14 @@ resource "azurerm_network_interface" "default" {
   }
 }
 
-resource "random_integer" "default" {
+resource "random_integer" "ubuntu" {
   count = var.subnet_count
   min   = 1000
   max   = 9999
 }
 
-resource "azurerm_virtual_network" "default" {
-  name                = "vnet-default"
+resource "azurerm_virtual_network" "ubuntu" {
+  name                = "vnet-ubuntu"
   resource_group_name = var.resource_group_name
   location            = var.location
   address_space       = ["10.0.0.0/16"]
@@ -69,7 +69,7 @@ resource "azurerm_virtual_network" "default" {
 
 resource "azurerm_linux_virtual_machine" "ubuntu" {
   count                = var.subnet_count
-  name                 = "vm-${random_integer.default[count.index].result}"
+  name                 = "vm-${random_integer.ubuntu[count.index].result}"
   resource_group_name  = var.resource_group_name
   location             = var.location
   size                 = var.vm_size
