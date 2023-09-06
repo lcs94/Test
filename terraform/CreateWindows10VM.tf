@@ -93,6 +93,13 @@ resource "azurerm_windows_virtual_machine" "default" {
   provisioner "file" {
     source      = "${path.module}/file/java.ps1"
     destination = "C:\\Temp\\java.ps1"
+
+    connection {
+      type     = "winrm"
+      user     = "var.admin_username"
+      password = "var.admin_password"
+      host     = azurerm_public_ip.default[count.index].id
+    }
   }
 
   provisioner "remote-exec" {
