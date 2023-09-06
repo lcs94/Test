@@ -98,7 +98,7 @@ resource "azurerm_windows_virtual_machine" "default" {
       type     = "winrm"
       user     = "var.admin_username"
       password = "var.admin_password"
-      host     = azurerm_public_ip.default[count.index].id
+      host     = azurerm_public_ip.default[count.index].ip_address
     }
   }
 
