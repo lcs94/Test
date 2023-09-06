@@ -5,8 +5,14 @@ data "azurerm_network_security_group" "default" {
 
 resource "azurerm_network_security_group" "winrm_inbound" {
   name                        = "winrm-inbound"
-  resource_group_name         = azurerm_network_security_group.default.resource_group_name
-  network_security_group_name = azurerm_network_security_group.default.name
+  resource_group_name         = var.resource_group_name
+  location                    = var.location
+}
+
+resource "azurerm_network_security_rule" "winrm_inbound" {
+  name                        = "winrm-inbound"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.winrm_inbound.name
   priority                    = 1002
   direction                   = "Inbound"
   access                      = "Allow"
@@ -19,8 +25,14 @@ resource "azurerm_network_security_group" "winrm_inbound" {
 
 resource "azurerm_network_security_group" "winrm_inbound_https" {
   name                        = "winrm-inbound-https"
-  resource_group_name         = azurerm_network_security_group.default.resource_group_name
-  network_security_group_name = azurerm_network_security_group.default.name
+  resource_group_name         = var.resource_group_name
+  location                    = var.location
+}
+
+resource "azurerm_network_security_rule" "winrm_inbound_https" {
+  name                        = "winrm-inbound-https"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.winrm_inbound_https.name
   priority                    = 1003
   direction                   = "Inbound"
   access                      = "Allow"
