@@ -89,23 +89,20 @@ resource "azurerm_windows_virtual_machine" "default" {
     sku       = var.sku
     version   = var.windows_version
   }
+
+  provisioner "file" {
+    source      = "${path.module}/file/java.ps1"
+    destination = "C:\\Temp\\java.ps1"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "powershell.exe -ExecutionPolicy Bypass C:\\Temp\\java.ps1"
+    ]
+  }
 }
 
 provider "azurerm" {
   features {}
   skip_provider_registration = true
 }
-
-resource "azurerm_virtual_machine_extension" "example" {
-  name                 = "ansible_windows_winrm"
-  virtual_machine_id   = azurerm_windows_virtual_machine.example.id
-  publisher            = "Microsoft.Compute"
-  type                 = "CustomScriptExtension"
-  type_handler_version = "1.9"
-
-  settings = <<SETTINGS
-    {
-        "fileUris": ["https://raw.githubusercontent.com/ansible/ansible-documentation/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"],
-        "commandToExecute": "powershell -ExecutionPolicy Unrestricted -file ConfigureRemotingForAnsible.ps1 -EnableCredSSP -DisableBasicAuth"
-    }
-SETTINGS
