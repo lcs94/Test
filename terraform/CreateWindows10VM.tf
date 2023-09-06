@@ -86,10 +86,10 @@ resource "azurerm_windows_virtual_machine" "default" {
     sku       = var.sku
     version   = var.windows_version
   }
-  
+
   os_profile {
-    admin_username = var.admin_username
-    admin_password = var.admin_password
+    admin_username = "Tester"
+    admin_password = "Tester1234$"
   }
 
   os_profile_windows_config {
