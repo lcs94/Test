@@ -3,6 +3,34 @@ data "azurerm_network_security_group" "default" {
   resource_group_name = var.resource_group_name
 }
 
+resource "azurerm_network_security_rule" "winrm_inbound" {
+  name                        = "winrm-inbound"
+  resource_group_name         = azurerm_network_security_group.default.resource_group_name
+  network_security_group_name = azurerm_network_security_group.default.name
+  priority                    = 1002
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "5985" # WinRM 포트
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+}
+
+resource "azurerm_network_security_rule" "winrm_inbound_https" {
+  name                        = "winrm-inbound-https"
+  resource_group_name         = azurerm_network_security_group.default.resource_group_name
+  network_security_group_name = azurerm_network_security_group.default.name
+  priority                    = 1003
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "5986" # WinRM HTTPS 포트
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+}
+
 resource "azurerm_network_interface_security_group_association" "default" {
   count                      = var.subnet_count
   network_interface_id = azurerm_network_interface.default[count.index].id

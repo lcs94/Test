@@ -18,7 +18,7 @@ variable "admin_username" {
 
 variable "admin_password" {
   description = "The admin password for the virtual machine."
-  default     = "Tester1234$"
+  default     = "Test123456789!"
   type        = string
 }
 
