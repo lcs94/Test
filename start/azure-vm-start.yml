@@ -5,12 +5,15 @@ steps:
   displayName: 'Azure Login'
 
 - script: |
+    echo "Agent: $(Agent)"
+    echo "dkns: $(dkns)"
+  displayName: 'Output Parameters'
+
+
+- script: |
     vm_list=$(az vm list --show-details --query "[?powerState=='VM deallocated']")
     Agent=$(echo $vm_list | jq -r '.[] | select(.name | contains("Agent")) | .name')
     dkns=$(echo $vm_list | jq -r '.[] | select(.name | contains("dkns")) | .name')
-
-    echo "Agent 변수: $Agent"
-    echo "dkns 변수: $dkns"
   displayName: 'Azure Start VM'
 
 - script: |
