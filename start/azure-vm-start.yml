@@ -1,0 +1,18 @@
+steps:
+- script: |
+    az login --service-principal -u 0cd2a780-3598-4328-8db8-8b7ba273e024 -p 7wj8Q~ZoQE19B3yHSRlA9XoXzu63nIHjCWuI8a1Z --tenant c86959ed-45e5-47f5-8ef5-308ca79916fc
+    cd $(Agent.BuildDirectory)
+  displayName: 'Azure Login'
+
+- powershell: |
+    cd $(Build.SourcesDirectory)
+    $azOutput = az vm list -d --query "[?powerState=='VM deallocated'].{Name:name, PowerState:powerState}" -o table | ConvertFrom-String -PropertyNames Name,PowerState -Delimiter "`n" -FormatTable
+    $Agent = $azOutput | Where-Object { $_.Name -match '^Agent\d+$' } | Select-Object -First 1
+    $dkns = $azOutput | Where-Object { $_.Name -match '^dkns\d+$' } | Select-Object -First 1
+
+- script: |
+      echo "##vso[task.setvariable variable=Agent]$(Agent)"
+      echo "##vso[task.setvariable variable=dkns]$(dkns)"
+
+  displayName: 'deallocated VM'
+  workingDirectory: $(Build.SourcesDirectory)/start
