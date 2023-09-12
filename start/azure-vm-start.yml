@@ -13,5 +13,8 @@ steps:
 - script: |
       echo "##vso[task.setvariable variable=Agent]$(Agent)"
       echo "##vso[task.setvariable variable=dkns]$(dkns)"
+
+      echo "Agent: $(Agent)"
+      echo "dkns: $(dkns)"
   displayName: 'deallocated VM'
   workingDirectory: $(Build.SourcesDirectory)/start
