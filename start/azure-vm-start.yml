@@ -4,15 +4,17 @@ steps:
     cd $(Agent.BuildDirectory)
   displayName: 'Azure Login'
 
-- powershell: |
-    cd $(Build.SourcesDirectory)
-    $azOutput = az vm list -d --query "[?powerState=='VM deallocated'].{Name:name, PowerState:powerState}" -o table | ConvertFrom-String -PropertyNames Name,PowerState -Delimiter "`n" -FormatTable
-    $Agent = $azOutput | Where-Object { $_.Name -match '^Agent\d+$' } | Select-Object -First 1
-    $dkns = $azOutput | Where-Object { $_.Name -match '^dkns\d+$' } | Select-Object -First 1
+- script: |
+    vm_list=$(az vm list --show-details --query "[?powerState=='VM deallocated']")
+    Agent=$(echo $vm_list | jq -r '.[] | select(.name | contains("Agent")) | .name')
+    dkns=$(echo $vm_list | jq -r '.[] | select(.name | contains("dkns")) | .name')
+
+    echo "Agent 변수: $Agent"
+    echo "dkns 변수: $dkns"
+  displayName: 'Azure Start VM'
 
 - script: |
       echo "##vso[task.setvariable variable=Agent]$(Agent)"
       echo "##vso[task.setvariable variable=dkns]$(dkns)"
-
   displayName: 'deallocated VM'
   workingDirectory: $(Build.SourcesDirectory)/start
