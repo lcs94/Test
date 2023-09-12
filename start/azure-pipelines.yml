@@ -17,4 +17,4 @@ jobs:
       echo "##vso[task.setvariable variable=ISSUE]$(ISSUE)"
       echo "##vso[task.setvariable variable=TEST]$(TEST)"
     displayName: 'Set Variables'
-  - template: windows/azure-vm-start.yml  # Template reference
+  - template: azure-vm-start.yml  # Template reference
