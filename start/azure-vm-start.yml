@@ -4,17 +4,16 @@ steps:
     cd $(Agent.BuildDirectory)
   displayName: 'Azure Login'
 
-- script: |
-    az vm list --show-details --query "[?powerState=='VM deallocated']"
-    Agent=$(echo az vm list --show-details --query "[?powerState=='VM deallocated']" | jq -r '.[] | select(.name | contains("Agent")) | .name')
-    dkns=$(echo az vm list --show-details --query "[?powerState=='VM deallocated']" | jq -r '.[] | select(.name | contains("dkns")) | .name')
+
+- powershell: |
+    $jsonOutput = az vm list --show-details --query "[?powerState=='VM deallocated']" | Out-String | ConvertFrom-Json
+    $Agent = $jsonOutput | Where-Object { $_.name -match "Agent" } | Select-Object -ExpandProperty name
+    $dkns = $jsonOutput | Where-Object { $_.name -match "dkns" } | Select-Object -ExpandProperty name
+    
+    Set-Variable -Name Agent -Value $Agent -Scope Global
+    Set-Variable -Name dkns -Value $dkns -Scope Global
+    
+    Write-Host "Agent: $Agent"
+    Write-Host "dkns: $dkns"
   displayName: 'Azure Start VM'
-
-- script: |
-      echo "##vso[task.setvariable variable=Agent]$(Agent)"
-      echo "##vso[task.setvariable variable=dkns]$(dkns)"
-
-      echo "Agent: $(Agent)"
-      echo "dkns: $(dkns)"
-  displayName: 'deallocated VM'
   workingDirectory: $(Build.SourcesDirectory)/start
