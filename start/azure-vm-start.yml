@@ -11,9 +11,9 @@ steps:
 
 
 - script: |
-    vm_list=$(az vm list --show-details --query "[?powerState=='VM deallocated']")
-    Agent=$(echo $vm_list | jq -r '.[] | select(.name | contains("Agent")) | .name')
-    dkns=$(echo $vm_list | jq -r '.[] | select(.name | contains("dkns")) | .name')
+    vm_list=$(az vm list --show-details --query "[?powerState=="VM deallocated"]")
+    Agent=$(echo $vm_list | jq -r ".[] | select(.name | contains("Agent")) | .name")
+    dkns=$(echo $vm_list | jq -r ".[] | select(.name | contains("dkns")) | .name")
   displayName: 'Azure Start VM'
 
 - script: |
