@@ -19,6 +19,5 @@ steps:
 
 - script: |
     az vm start --name $dkns --resource-group Automated_Test
-    
   displayName: 'Azure Start VM'
   workingDirectory: $(Build.SourcesDirectory)/start
