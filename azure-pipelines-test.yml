@@ -18,6 +18,11 @@ jobs:
       echo "##vso[task.setvariable variable=TEST]$(TEST)"
     displayName: 'Set Variables'
   - powershell: |
+      echo "TESTIMG: $env:TESTIMG"
+      echo "ISSUE: $env:ISSUE"
+      echo "TEST: $env:TEST"
+    displayName: 'Output Variables'
+  - powershell: |
       $psexecUrl = 'https://download.sysinternals.com/files/PSTools.zip'
       $downloadPath = Join-Path $env:USERPROFILE 'Downloads\PSTools.zip'
       Invoke-WebRequest -Uri $psexecUrl -OutFile $downloadPath
@@ -25,18 +30,10 @@ jobs:
       $psexecPath = Join-Path $env:USERPROFILE\Downloads\PSTools 'PsExec.exe'
       Copy-Item -Path $psexecPath -Destination 'C:\Windows\System32\PsExec.exe'
       [System.Environment]::SetEnvironmentVariable('Path', [System.Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine) + ";$psexecPath", [System.EnvironmentVariableTarget]::Machine)
-
-    env:
-      TESTIMG: $(TESTIMG)
-      ISSUE: $(ISSUE)
-      TEST: $(TEST)
-
-      psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $env:TESTIMG $env:ISSUE $env:TEST
+    #psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $env:TESTIMG $env:ISSUE $env:TEST
     
     #psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C "cd C:\CLOUD\test\v6 && mvn compile && exit"
     displayName: 'Download and Install PsExec'
-  - powershell: |
-      echo "TESTIMG: $env:TESTIMG"
-      echo "ISSUE: $env:ISSUE"
-      echo "TEST: $env:TEST"
-    displayName: 'Output Environment Variables'
+  - script: |
+      psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $env:TESTIMG $env:ISSUE $env:TEST
+    displayName: 'Run PsExec'
