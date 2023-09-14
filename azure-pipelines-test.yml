@@ -35,5 +35,5 @@ jobs:
     #psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C "cd C:\CLOUD\test\v6 && mvn compile && exit"
     displayName: 'Download and Install PsExec'
   - script: |
-      psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $env:TESTIMG $env:ISSUE $env:TEST
+      psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
     displayName: 'Run PsExec'
