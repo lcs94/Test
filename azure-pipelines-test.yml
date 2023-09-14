@@ -30,5 +30,11 @@ jobs:
       TESTIMG: $(TESTIMG)
       ISSUE: $(ISSUE)
       TEST: $(TEST)
+  - powershell: |
+     echo "TESTIMG: $env:TESTIMG"
+      echo "ISSUE: $env:ISSUE"
+      echo "TEST: $env:TEST"
+    displayName: 'Output Environment Variables'
+
     #psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C "cd C:\CLOUD\test\v6 && mvn compile && exit"
     displayName: 'Download and Install PsExec'
