@@ -25,5 +25,10 @@ jobs:
       $psexecPath = Join-Path $env:USERPROFILE\Downloads\PSTools 'PsExec.exe'
       Copy-Item -Path $psexecPath -Destination 'C:\Windows\System32\PsExec.exe'
       [System.Environment]::SetEnvironmentVariable('Path', [System.Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine) + ";$psexecPath", [System.EnvironmentVariableTarget]::Machine)
-      psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C "cd C:\CLOUD\test\v6 && mvn compile && exit"
+      psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test.bat 
+    env:
+      TESTIMG: $(TESTIMG)
+      ISSUE: $(ISSUE)
+      TEST: $(TEST)
+    #psexec -accepteula \\20.196.215.86 -u Tester -p Tester1234@! -i 2 -h cmd /C "cd C:\CLOUD\test\v6 && mvn compile && exit"
     displayName: 'Download and Install PsExec'
