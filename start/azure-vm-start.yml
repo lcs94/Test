@@ -25,7 +25,7 @@ steps:
 
     echo "공인IP $AgentIP"
 
-    psexec -accepteula \\20.249.103.139. -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
+  # psexec -accepteula \\20.249.103.139. -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
 
     psexec -accepteula \\$AgentIP -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
   displayName: 'Azure Start VM/Run Test(PsExec)'
