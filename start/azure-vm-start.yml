@@ -5,6 +5,9 @@ steps:
   displayName: 'Azure Login'
 
 - powershell: |
+    echo "TESTIMG: $env:TESTIMG"
+    echo "ISSUE: $env:ISSUE"
+    echo "TEST: $env:TEST"
     $jsonOutput = az vm list --show-details --query "[?powerState=='VM deallocated']" | Out-String | ConvertFrom-Json
     $Agent = $jsonOutput | Where-Object { $_.name -match "Agent" } | Select-Object -ExpandProperty name
     $dkns = $jsonOutput | Where-Object { $_.name -match "dkns" } | Select-Object -ExpandProperty name
