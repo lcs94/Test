@@ -15,4 +15,4 @@ jobs:
       echo "##vso[task.setvariable variable=Agent]$(Agent)"
       echo "##vso[task.setvariable variable=dkns]$(dkns)"
     displayName: 'Set Variables'
-  - template: windows/azure-vm-stop  # Template reference
+  - template: windows/azure-vm-stop.yml  # Template reference
