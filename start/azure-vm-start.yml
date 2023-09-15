@@ -12,6 +12,9 @@ steps:
     $Agent = $jsonOutput | Where-Object { $_.name -match "Agent" } | Select-Object -ExpandProperty name
     $dkns = $jsonOutput | Where-Object { $_.name -match "dkns" } | Select-Object -ExpandProperty name
 
+    $Agent = $Agent | Select-Object -First 1
+    $dkns = $dkns | Select-Object -First 1
+
     az vm start --name $Agent --resource-group Automated_Test
     az vm start --name $dkns --resource-group Automated_Test
 
