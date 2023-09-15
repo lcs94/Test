@@ -22,5 +22,5 @@ steps:
 - powershell: |
     $AgentIP = az vm show -d -g Automated_Test -n $Agent --query publicIps -o tsv
     psexec -accepteula $AgentIP -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
-  displayName: ''Run Test(PsExec)'
+  displayName: 'Run Test(PsExec)'
   workingDirectory: $(Build.SourcesDirectory)/start
