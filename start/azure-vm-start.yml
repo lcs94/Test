@@ -4,7 +4,6 @@ steps:
     cd $(Agent.BuildDirectory)
   displayName: 'Azure Login'
 
-
 - powershell: |
     $jsonOutput = az vm list --show-details --query "[?powerState=='VM deallocated']" | Out-String | ConvertFrom-Json
     $Agent = $jsonOutput | Where-Object { $_.name -match "Agent" } | Select-Object -ExpandProperty name
