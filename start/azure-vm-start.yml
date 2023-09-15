@@ -8,24 +8,8 @@ steps:
     $jsonOutput = az vm list --show-details --query "[?powerState=='VM deallocated']" | Out-String | ConvertFrom-Json
     $Agent = $jsonOutput | Where-Object { $_.name -match "Agent" } | Select-Object -ExpandProperty name
     $dkns = $jsonOutput | Where-Object { $_.name -match "dkns" } | Select-Object -ExpandProperty name
-    
-    Set-Variable -Name Agent -Value $Agent -Scope Global
-    Set-Variable -Name dkns -Value $dkns -Scope Global
-    
-    Write-Host "Agent: $env:Agent"
-    Write-Host "dkns: $env:dkns"
 
-    echo "TESTIMG: $env:TESTIMG"
-    echo "ISSUE: $env:ISSUE"
-    echo "TEST: $env:TEST"
-
-    if ($Agent -ne "" -and $dkns -ne "") {
-        echo "Agent: $env:Agent"
-        echo "dkns: $env:dkns"
-        az vm start --name "$env:dkns" --resource-group Automated_Test
-        az vm start --name "$env:Agent" --resource-group Automated_Test
-    } else {
-        Write-Host "Agent or dkns is empty. Skipping VM start."
-    }
+    az vm start --name $Agent --resource-group Automated_Test
+    az vm start --name $dkns --resource-group Automated_Test
   displayName: 'Azure Start VM'
   workingDirectory: $(Build.SourcesDirectory)/start
