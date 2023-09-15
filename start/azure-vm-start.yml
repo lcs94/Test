@@ -20,10 +20,13 @@ steps:
 
     echo "가상 머신 $Agent 시작됨."
     echo "가상 머신 $dkns 시작됨."
-  displayName: 'Azure Start VM'
 
-- powershell: |
     $AgentIP = az vm show -d -g Automated_Test -n $Agent --query publicIps -o tsv
-    psexec -accepteula $AgentIP -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
-  displayName: 'Run Test(PsExec)'
+
+    echo "공인IP $AgentIP"
+
+    psexec -accepteula \\20.249.103.139. -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
+
+    psexec -accepteula \\$AgentIP -u Tester -p Tester1234@! -i 2 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
+  displayName: 'Azure Start VM/Run Test(PsExec)'
   workingDirectory: $(Build.SourcesDirectory)/start
