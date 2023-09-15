@@ -12,11 +12,12 @@ steps:
     Set-Variable -Name Agent -Value $Agent -Scope Global
     Set-Variable -Name dkns -Value $dkns -Scope Global
     
-    Write-Host "Agent: $Agent"
-    Write-Host "dkns: $dkns"
+    Write-Host "Agent: $env:Agent"
+    Write-Host "dkns: $env:dkns"
 
-    echo "Agent: $env:Agent"
-    echo "dkns: $env:dkns"
+    echo "TESTIMG: $env:TESTIMG"
+    echo "ISSUE: $env:ISSUE"
+    echo "TEST: $env:TEST"
 
     if ($Agent -ne "" -and $dkns -ne "") {
         echo "Agent: $env:Agent"
