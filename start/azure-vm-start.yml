@@ -14,11 +14,17 @@ steps:
     
     Write-Host "Agent: $Agent"
     Write-Host "dkns: $dkns"
-  displayName: 'Azure Check VM'
 
-- script: |
-    echo Agent: %Agent%
-    echo dkns: %dkns%
-    az vm start --name "%dkns%" --resource-group Automated_Test
+    echo "Agent: $env:Agent"
+    echo "dkns: $env:dkns"
+
+    if ($Agent -ne "" -and $dkns -ne "") {
+        echo "Agent: $env:Agent"
+        echo "dkns: $env:dkns"
+        az vm start --name "$env:dkns" --resource-group Automated_Test
+        az vm start --name "$env:Agent" --resource-group Automated_Test
+    } else {
+        Write-Host "Agent or dkns is empty. Skipping VM start."
+    }
   displayName: 'Azure Start VM'
   workingDirectory: $(Build.SourcesDirectory)/start
