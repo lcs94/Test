@@ -5,9 +5,14 @@ steps:
   displayName: 'Azure Login'
 
 - powershell: |
+    $TESTIMG = $env:TESTIMG -replace '"', ''
+    $ISSUE = $env:ISSUE -replace '"', ''
+    $TEST = $env:TEST -replace '"', ''
+
     echo "TESTIMG: $env:TESTIMG"
     echo "ISSUE: $env:ISSUE"
     echo "TEST: $env:TEST"
+
     $jsonOutput = az vm list --show-details --query "[?powerState=='VM deallocated']" | Out-String | ConvertFrom-Json
     $Agent = $jsonOutput | Where-Object { $_.name -match "Agent" } | Select-Object -ExpandProperty name
     $dkns = $jsonOutput | Where-Object { $_.name -match "dkns" } | Select-Object -ExpandProperty name
@@ -25,6 +30,6 @@ steps:
 
     echo "공인IP $AgentIP"
 
-    psexec -accepteula \\$AgentIP -u Tester -p Tester1234@! -i 1 -h cmd /C start /MIN C:/test2.bat $TESTIMG $ISSUE $TEST
+    psexec -accepteula \\$AgentIP -u Tester -p Tester1234@! -i 1 -h cmd /C start /MIN C:/test.bat $TESTIMG $ISSUE $TEST
   displayName: 'Azure Start VM/Run Test(PsExec)'
   workingDirectory: $(Build.SourcesDirectory)/start
