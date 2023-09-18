@@ -8,7 +8,7 @@ steps:
     $TESTIMG = $env:TESTIMG -replace '"', ''
     $ISSUE = $env:ISSUE -replace '"', ''
     $TEST = $env:TEST -replace '"', ''
-
+    
     echo "TESTIMG: $env:TESTIMG"
     echo "ISSUE: $env:ISSUE"
     echo "TEST: $env:TEST"
@@ -20,12 +20,12 @@ steps:
     echo "공인IP $dknsIP"
 
     $ISSUEDKNS = $ISSUE -replace '-', ''
-    $TESTIMGDKNS = $TESTIMGDKNS -replace 'CLOUD', 'DKNS'
+    $TESTIMGDKNS = $TESTIMG -replace 'CLOUD', 'DKNS'
 
     echo "DKNS SITE: $ISSUEDKNS"
     echo "DKNS IMG: $TESTIMGDKNS"
 
-    ssh -i $(Build.SourcesDirectory)/start/DKNS.pem username@$dknsIP 's/DKNS_SERVER=.*/DKNS_SERVER=$env:$ISSUEDKNS.demo.genians.co.kr/; s#DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian2.conf'
+    ssh -i $(Build.SourcesDirectory)/start/DKNS.pem username@$dknsIP "sudo sed -i 's#^DKNS_SERVER=.*#DKNS_SERVER=$ISSUEDKNS.demo.genians.co.kr#; s#^DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian2.conf"
 
   displayName: 'Azure Start VM/Run Test(PsExec)'
   workingDirectory: $(Build.SourcesDirectory)/start
