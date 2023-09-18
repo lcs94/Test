@@ -38,7 +38,12 @@ steps:
     echo "DKNS SITE: $ISSUEDKNS"
     echo "DKNS IMG: $TESTIMGDKNS"
 
-    ssh -i $(Build.SourcesDirectory)/start/DKNS.pem username@$dknsIP 's/DKNS_SERVER=.*/DKNS_SERVER=$env:$ISSUEDKNS.demo.genians.co.kr/; s#DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian2.conf'
+    icacls "$(Build.SourcesDirectory)/start/DKNS.pem" /inheritance:r
+    icacls "$(Build.SourcesDirectory)/start/DKNS.pem" /grant:r "$($env:USERNAME):R"
+
+    echo "pem 파일 권한 변경"
+
+    ssh -o StrictHostKeyChecking=no -i $(Build.SourcesDirectory)/start/DKNS.pem $dkns@$dknsIP "sudo sed -i 's#^DKNS_SERVER=.*#DKNS_SERVER=$ISSUEDKNS.demo.genians.co.kr#; s#^DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian.conf; sudo cat /usr/geni/conf/genian.conf; sudo reboot"
 
     psexec -accepteula \\$AgentIP -u Tester -p Tester1234@! -i 1 -h cmd /C start /MIN C:/test.bat $TESTIMG $ISSUE $TEST $Agent $dkns
   displayName: 'Azure Start VM/Run Test(PsExec)'
