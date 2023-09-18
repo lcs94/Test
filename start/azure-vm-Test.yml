@@ -13,9 +13,16 @@ steps:
     echo "ISSUE: $env:ISSUE"
     echo "TEST: $env:TEST"
 
-    $dkns = "dkns01"
+    $jsonOutput = az vm list --show-details --query "[?powerState=='VM deallocated']" | Out-String | ConvertFrom-Json
+    $dkns = $jsonOutput | Where-Object { $_.name -match "dkns" } | Select-Object -ExpandProperty name
 
-    $dknsIP = "20.196.215.90"
+    $dkns = $dkns | Select-Object -First 1
+
+    az vm start --name $dkns --resource-group Automated_Test
+
+    echo "가상 머신 $dkns 시작됨."
+
+    $dknsIP = az vm show -d -g Automated_Test -n $dkns --query publicIps -o tsv
 
     echo "공인IP $dknsIP"
 
