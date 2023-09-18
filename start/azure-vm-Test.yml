@@ -33,10 +33,7 @@ steps:
     echo "DKNS IMG: $TESTIMGDKNS"
 
     icacls "$(Build.SourcesDirectory)/start/DKNS.pem" /inheritance:r
-    icacls "$(Build.SourcesDirectory)/start/DKNS.pem" /grant:r "%USERNAME%:R"
-    icacls "$(Build.SourcesDirectory)/start/DKNS.pem" /remove:g "BUILTIN\Administrators"
-    icacls "$(Build.SourcesDirectory)/start/DKNS.pem" /remove:g SYSTEM
-    icacls "$(Build.SourcesDirectory)/start/DKNS.pem" /remove:g "CREATOR OWNER"
+    icacls "$(Build.SourcesDirectory)/start/DKNS.pem" /grant:r "$($env:USERNAME):R"
 
     echo "권한 변경"
 
