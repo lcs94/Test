@@ -27,8 +27,18 @@ steps:
     echo "가상 머신 $dkns 시작됨."
 
     $AgentIP = az vm show -d -g Automated_Test -n $Agent --query publicIps -o tsv
+    $dknsIP = az vm show -d -g Automated_Test -n $dkns --query publicIps -o tsv
 
     echo "공인IP $AgentIP"
+    echo "공인IP $dknsIP"
+
+    $ISSUEDKNS = $ISSUE -replace '-', ''
+    $TESTIMGDKNS = $$TESTIMGDKNS -replace 'CLOUD', 'DKNS'
+
+    echo "DKNS SITE: $ISSUEDKNS"
+    echo "DKNS IMG: $TESTIMGDKNS"
+
+    ssh -i $(Build.SourcesDirectory)/start/DKNS.pem username@$dknsIP 's/DKNS_SERVER=.*/DKNS_SERVER=$env:$ISSUEDKNS.demo.genians.co.kr/; s#DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian2.conf'
 
     psexec -accepteula \\$AgentIP -u Tester -p Tester1234@! -i 1 -h cmd /C start /MIN C:/test.bat $TESTIMG $ISSUE $TEST $Agent $dkns
   displayName: 'Azure Start VM/Run Test(PsExec)'
