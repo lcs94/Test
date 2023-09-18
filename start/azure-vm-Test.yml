@@ -32,7 +32,7 @@ steps:
     echo "DKNS SITE: $ISSUEDKNS"
     echo "DKNS IMG: $TESTIMGDKNS"
 
-    ssh -i $(Build.SourcesDirectory)/start/DKNS.pem username@$dknsIP "sudo sed -i 's#^DKNS_SERVER=.*#DKNS_SERVER=$ISSUEDKNS.demo.genians.co.kr#; s#^DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian2.conf"
+    ssh -o StrictHostKeyChecking=no -i $(Build.SourcesDirectory)/start/DKNS.pem username@$dknsIP "sudo sed -i 's#^DKNS_SERVER=.*#DKNS_SERVER=$ISSUEDKNS.demo.genians.co.kr#; s#^DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian2.conf"
 
   displayName: 'Azure Start VM/Run Test(PsExec)'
   workingDirectory: $(Build.SourcesDirectory)/start
