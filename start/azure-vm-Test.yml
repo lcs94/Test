@@ -13,23 +13,10 @@ steps:
     echo "ISSUE: $env:ISSUE"
     echo "TEST: $env:TEST"
 
-    $jsonOutput = az vm list --show-details --query "[?powerState=='VM deallocated']" | Out-String | ConvertFrom-Json
-    $Agent = $jsonOutput | Where-Object { $_.name -match "Agent" } | Select-Object -ExpandProperty name
-    $dkns = $jsonOutput | Where-Object { $_.name -match "dkns" } | Select-Object -ExpandProperty name
+    $dkns = "dkns01"
 
-    $Agent = $Agent | Select-Object -First 1
-    $dkns = $dkns | Select-Object -First 1
+    $dknsIP = "20.196.215.90"
 
-    az vm start --name $Agent --resource-group Automated_Test
-    az vm start --name $dkns --resource-group Automated_Test
-
-    echo "가상 머신 $Agent 시작됨."
-    echo "가상 머신 $dkns 시작됨."
-
-    $AgentIP = az vm show -d -g Automated_Test -n $Agent --query publicIps -o tsv
-    $dknsIP = az vm show -d -g Automated_Test -n $dkns --query publicIps -o tsv
-
-    echo "공인IP $AgentIP"
     echo "공인IP $dknsIP"
 
     $ISSUEDKNS = $ISSUE -replace '-', ''
@@ -40,6 +27,5 @@ steps:
 
     ssh -i $(Build.SourcesDirectory)/start/DKNS.pem username@$dknsIP 's/DKNS_SERVER=.*/DKNS_SERVER=$env:$ISSUEDKNS.demo.genians.co.kr/; s#DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian2.conf'
 
-    psexec -accepteula \\$AgentIP -u Tester -p Tester1234@! -i 1 -h cmd /C start /MIN C:/test.bat $TESTIMG $ISSUE $TEST $Agent $dkns
   displayName: 'Azure Start VM/Run Test(PsExec)'
   workingDirectory: $(Build.SourcesDirectory)/start
