@@ -37,7 +37,7 @@ steps:
 
     echo "권한 변경"
 
-    ssh -o StrictHostKeyChecking=no -i $(Build.SourcesDirectory)/start/DKNS.pem $dkns@$dknsIP "sudo sed -i 's#^DKNS_SERVER=.*#DKNS_SERVER=$ISSUEDKNS.demo.genians.co.kr#; s#^DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-beta:$TESTIMGDKNS#' /usr/geni/conf/genian2.conf; sudo cat /usr/geni/conf/genian2.conf"
+    ssh -o StrictHostKeyChecking=no -i $(Build.SourcesDirectory)/start/DKNS.pem $dkns@$dknsIP "sudo sed -i 's#^DKNS_SERVER=.*#DKNS_SERVER=$ISSUEDKNS.demo.genians.co.kr#; s#^DKNS_IMAGE=.*#DKNS_IMAGE=genians/genian-nac6-ns-dev:$TESTIMGDKNS' /usr/geni/conf/genian.conf; sudo cat /usr/geni/conf/genian.conf"
 
   displayName: 'Test'
   workingDirectory: $(Build.SourcesDirectory)/start
