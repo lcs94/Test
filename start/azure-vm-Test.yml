@@ -26,7 +26,7 @@ steps:
 
     echo "공인IP $dknsIP"
 
-    $ISSUEDKNS = $ISSUE -replace '-', ''
+    $ISSUEDKNS = $ISSUE -replace '-', '' -replace 'GN', 'gn'
     $TESTIMGDKNS = $TESTIMG -replace 'CLOUD', 'DKNS' -replace '\.img$', ''
 
     echo "DKNS SITE: $ISSUEDKNS"
