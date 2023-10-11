@@ -20,6 +20,16 @@ steps:
     $Agent = $Agent | Select-Object -First 1
     $dkns = $dkns | Select-Object -First 1
 
+    $AgentNumber = [regex]::Match($Agent, 'Agent(\d+)').Groups[1].Value
+    $dknsNumber = [regex]::Match($dkns, 'dkns(\d+)').Groups[1].Value
+
+    if ($AgentNumber -ne $dknsNumber) {
+      Write-Output "Agent의 subnet을 dkns subnet과 동일하게 변경 합니다."
+
+      az network nic update --ids "/subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Network/networkInterfaces/Agent$AgentNumberVMNic" --set ipConfigurations[0].subnet.id="/subscriptions/f85dce05-6791-4464-afde-6ac8649b9b3d/resourceGroups/Automated_Test/providers/Microsoft.Network/virtualNetworks/DtlAutomated_Test/subnets/subnet-00$dknsNumber"
+    }
+
+
     az vm start --name $Agent --resource-group Automated_Test
     az vm start --name $dkns --resource-group Automated_Test
 
