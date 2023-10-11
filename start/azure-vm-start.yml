@@ -23,8 +23,8 @@ steps:
     $AgentNumber = [regex]::Match($Agent, 'Agent(\d+)').Groups[1].Value
     $dknsNumber = [regex]::Match($dkns, 'dkns(\d+)').Groups[1].Value
 
-    echo "가상 머신 $Agent 확인 됨."
-    echo "가상 머신 $dkns 확인 됨."
+    echo "가상 머신 $AgentNumber 확인 됨."
+    echo "가상 머신 $dknsNumber 확인 됨."
 
     if ($AgentNumber -ne $dknsNumber) {
       Write-Output "Agent의 subnet을 dkns subnet과 동일하게 변경 합니다."
