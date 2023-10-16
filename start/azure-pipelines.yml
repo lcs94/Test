@@ -6,7 +6,7 @@ jobs:
   - task: TerraformInstaller@0
     inputs: 
       terraformVersion: latest
-    displayName: Install Terraform
+    displayName: Install Terraform   
   - script: |
       echo "TESTIMG: $(TESTIMG)"
       echo "ISSUE: $(ISSUE)"
